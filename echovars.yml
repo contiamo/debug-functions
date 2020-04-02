@@ -1,0 +1,25 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: https://cloud.contiamo.com/solutions/labs
+
+configuration:
+  templates:
+    - name: python3-quart
+      source: https://github.com/contiamo/openfaas-templates
+
+functions:
+  echovars:
+    lang: python3-quart
+    handler: ./echovars
+    image: contiamo/echovars:latest
+    namespace: beta
+    annotations:
+      code: https://github.com/contiamo/debug-functions
+      com.contiamo: debug
+      summary: This function will simply print the environment variables it can see
+    environment:
+      LABS_BUNDLE_ROOT: /labs/bundle
+      SOMETHING_ELSE: ${TEST}
+      VTG_ETA_DB_HOST: "1.2.3.4"
+
